@@ -89,7 +89,7 @@ class CondoController extends Controller
     public function AllCondo()
     {
 
-        $condos = Condo::with('amenities')->orderBy('name')->get();
+        $condos = Condo::with('amenities')->orderBy('id')->get();
         return view ('backend.condo.all_condo', compact('condos'));
     }
 
