@@ -49,14 +49,13 @@
               <td>{{ $item->price }}</td>
               <td>{{ $item->room }}</td>
               <td>{{ $item->validate_at }}</td>
+
               <td>
-              <!-- @if ($item->amenity) -->
-                 @foreach ($item->amenities as  $amenitie)
-                <span class="badge bg-danger"> {{$amenitie->amenities_name }}</span>
+              
+                 @foreach ($item->amenities as  $ame)
+                <span class="badge bg-danger"> {{$ame->amenities_name}}</span>
                 @endforeach
-                <!-- @else
-                    <p>No Amenities.</p>
-                @endif -->
+
               </td>
               <td>{{ $item->description }}</td>
               <td>{{ $item->address }}</td>

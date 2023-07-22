@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('condo_amenities', function (Blueprint $table) {
+        Schema::create('amenities_condos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('condo_id')->unsigned();
             $table->bigInteger('amenities_id')->unsigned();
-            $table->foreign('condo_id')->references('id')->on('condos')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('condos_id')->unsigned();
             $table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('condos_id')->references('id')->on('condos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('condo_amenities');
+        Schema::dropIfExists('amenities_condos');
     }
 };

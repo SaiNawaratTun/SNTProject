@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Condo;
+
 
 class Amenities extends Model
 {
@@ -12,6 +14,6 @@ class Amenities extends Model
 
     public function condo(){
 
-        return $this->belongsToMany(Condo::class, 'condo_amenities', 'amenities_id', 'condo_id');
+        return $this->belongsToMany(Condo::class, 'amenities_condos', 'amenities_id', 'condos_id');
     }
 }
