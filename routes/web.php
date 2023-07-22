@@ -123,7 +123,6 @@ Route::middleware(['auth','role:admin'])->group(function(){
         //Condos of All Route
     Route::controller(CondoController::class)->group(Function(){
         Route::get('/all/condo', 'AllCondo')->name('all.condo');
-        // Route::get('/amenities/condo', 'getAmenitiesByCondos')->name('amenities.by.condos');
         Route::get('/add/condo', 'AddCondo')->name('add.condo');
         Route::post('/store/condo', 'StoreCondo')->name('store.condo');
         Route::get('/edit/condo/{id}', 'EditCondo')->name('edit.condo');
