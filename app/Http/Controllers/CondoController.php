@@ -54,9 +54,6 @@ class CondoController extends Controller
          $item->save();
         $item->amenities()->attach($data);
 
-         
-
-
          $condos = $item->id;
 
 
@@ -99,7 +96,9 @@ class CondoController extends Controller
     public function EditCondo($id)
     {
         $item = Condo::findOrFail($id);
-        return view('backend.condo.edit_condo', compact('item'));
+        $amenities = Amenities::all();
+        $amenities_group = User::getamenitiesGroup();
+        return view('backend.condo.edit_condo', compact('item','amenities','amenities_group'));
     }
 
     /**
@@ -109,7 +108,15 @@ class CondoController extends Controller
     {
         $cod_id = $request->id;
 
-        Condo::findOrFail($cod_id)->update([
+        $condo = Condo::findOrFail($cod_id);
+
+        $amenities = $request->amenity;
+
+        if(!empty($amenities)){
+            $condo->amenities()->sync($amenities);
+        }
+
+         Condo::findOrFail($cod_id)->update([
 
             'name' => $request->name,
             'price' => $request->price,
@@ -118,6 +125,8 @@ class CondoController extends Controller
             'description' => $request->description,
             'address' => $request->address,
          ]);
+
+
 
          $data = Image::select('url')->where('condo_id',$request->id)->get();
          

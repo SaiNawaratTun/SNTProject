@@ -77,5 +77,4 @@ class User extends Authenticatable
         return $amenities_group;
     } //End Method
 
-
 }

@@ -97,6 +97,21 @@
                             </span>
                         @enderror
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="exampleInputUsername1" class="form-label">Select Amenities</label>
+                        <br>
+                        @foreach ($amenities_group as $amenity)
+                        
+                            <div class="form-check form-check-inline col-3">
+                                <input type="checkbox" name="amenity[]" class="form-check-input" id="amenity" value="{{ $amenity->id}}" >
+                                <label class="form-check-label" for="amenity">
+                                {{ $amenity->amenities_name}}
+                                </label>
+                                <br>
+                            </div>
+                        
+                        @endforeach
+                    </div>
                     
                     
                     
