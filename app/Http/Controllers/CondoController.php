@@ -181,7 +181,7 @@ class CondoController extends Controller
 
 
         $notification = array(
-            'message' => 'Amenities Deleted Successfully',
+            'message' => 'Condo Deleted Successfully',
             'alert-type' => 'success'
             );
       
