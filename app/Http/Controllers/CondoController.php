@@ -173,7 +173,12 @@ class CondoController extends Controller
 
     public function DeleteCondo($id)
     {
-        Condo::findOrFail($id)->delete();
+        $condo = Condo::findOrFail($id);
+
+        $condo->amenities()->detach();
+
+        $condo->delete();
+
 
         $notification = array(
             'message' => 'Amenities Deleted Successfully',
