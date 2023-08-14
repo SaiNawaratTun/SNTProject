@@ -12,16 +12,15 @@
         <div class="card">
             <div class="card-body">
 
-                <h6 class="card-title">Update Condo</h6>
+                <h6 class="card-title">Add Apartment</h6>
 
-                <form id="myForm" method="POST" action="{{ route('update.condo')}}" class="forms-sample" enctype="multipart/form-data" >
+                <form id="myForm" method="POST" action="{{ route('store.apartment')}}" class="forms-sample" enctype="multipart/form-data" >
                     @csrf
 
-                    <input type="hidden" name="id" value="{{ $item->id }}">
 
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" value="{{ $item->name }}">
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name">
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -31,7 +30,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Price</label>
-                        <input type="price" name="price" class="form-control @error('price') is-invalid @enderror"  id="price" value="{{ $item->price }}">
+                        <input type="price" name="price" class="form-control @error('price') is-invalid @enderror"  id="price">
                             @error('price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -40,7 +39,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Room</label>
-                        <input type="text" name="room" class="form-control @error('room') is-invalid @enderror"  id="room" value="{{ $item->room }}">
+                        <input type="text" name="room" class="form-control @error('room') is-invalid @enderror"  id="room">
                             @error('room')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -49,7 +48,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Valid Date</label>  
-                        <input name="valid_date" id="valid_date" type="date" value="{{ $item->validate_at }}" class="form-control mb-4 mb-md-0 @error('valid_date') is-invalid @enderror" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy"/>                         
+                        <input name="valid_date" id="valid_date" type="date" class="form-control mb-4 mb-md-0 @error('valid_date') is-invalid @enderror" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy"/>                         
                         @error('valid_date')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -59,7 +58,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Description</label>
-                        <textarea name="description" type="text" value="{{ $item->description }}" class="form-control  @error('description') is-invalid @enderror" id="description" rows="4">{{ $item->description }}</textarea>
+                        <textarea name="description" class="form-control  @error('description') is-invalid @enderror" id="description" rows="4"></textarea>
                             @error('description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -68,7 +67,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Address</label>
-                        <input type="text" name="address" value="{{ $item->address }}" class="form-control @error('address') is-invalid @enderror"  id="address">
+                        <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"  id="address">
                             @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -76,35 +75,24 @@
                             @enderror
                     </div>
                     <div class="form-group mb-3">
-                        <label for="exampleInputUsername1" class="form-label">Uploaded Images</label>
-                        <br>
-                        @if($item->uploadImage)
-                            @foreach($item->uploadImage as $image)
-
-                                    <img src="{{ asset($image->url) }}" width="100" height="100" alt="">
-                                    <a href="{{ route('image.delete',$image->id) }}" class="btn btn-inverse-danger" id="delete"> Delete </a>
-                                
-                            @endforeach
-                        @endif
-                    </div><br>
-
-                    <div class="form-group mb-2">
-                        <label><b>Choose Images</b></label>
-                        <input class="form-control" type="file" name="images[]" id="images" multiple>
+                        <label for="exampleInputUsername1" class="form-label">Upload Images</label>
+                        <input class="form-control @error('images') is-invalid @enderror" type="file" name="images[]" id="images" multiple>
                         @error('images')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
                     </div>
+
+                    <hr>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Select Amenities</label>
                         <br>
                         @foreach ($amenities_group as $amenity)
                         
                             <div class="form-check form-check-inline col-3">
-                                <input type="checkbox" name="amenity[]" class="form-check-input" id="amenity" value="{{ $amenity->id}}" >
-                                <label class="form-check-label" for="amenity">
+                                <input type="checkbox" name="amenity[]" class="form-check-input" id="amenity" value="{{ $amenity->id}}">
+                                <label class="form-check-label" for="checkInline1">
                                 {{ $amenity->amenities_name}}
                                 </label>
                                 <br>
@@ -112,10 +100,10 @@
                         
                         @endforeach
                     </div>
+
+                      <hr>
                     
-                    
-                    
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <button type="submit" class="btn btn-primary me-2">Add</button>
                 </form>
 
             </div>

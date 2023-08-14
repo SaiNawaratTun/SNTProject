@@ -14,4 +14,9 @@ class Apartment extends Model
 
         return $this->hasMany(Image::class, 'appartment_id', 'id');
     }
+
+    public function amenities(){
+
+        return $this->belongsToMany(Amenities::class,'amenities_apartments', 'appartment_id', 'amenities_id');
+    }
 }

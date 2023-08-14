@@ -7,6 +7,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Backend\PropertyTypeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\CondoController;
+use App\Http\Controllers\ApartmentController;
 use App\Models\User;
 
 /*
@@ -131,6 +132,19 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/delete/image/{id}', 'DeleteImage')->name('image.delete');
 
     });
+
+    
+        //Condos of All Route
+        Route::controller(ApartmentController::class)->group(Function(){
+            Route::get('/all/apartment', 'AllApartment')->name('all.apartment');
+            Route::get('/add/apartment', 'AddApartment')->name('add.apartment');
+            Route::post('/store/apartment', 'StoreApartment')->name('store.apartment');
+            Route::get('/edit/apartment/{id}', 'EditApartment')->name('edit.apartment');
+            Route::post('/update/apartment', 'UpdateApartment')->name('update.apartment');
+            Route::get('/delete/apartment/{id}', 'DeleteApartment')->name('delete.apartment');
+            Route::get('/delete/image/{id}', 'DeleteImage')->name('image.delete');
+    
+        });
 
     
 });//End Admin Middleware Group

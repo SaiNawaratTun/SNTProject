@@ -12,9 +12,9 @@
         <div class="card">
             <div class="card-body">
 
-                <h6 class="card-title">Update Condo</h6>
+                <h6 class="card-title">Update Apartment</h6>
 
-                <form id="myForm" method="POST" action="{{ route('update.condo')}}" class="forms-sample" enctype="multipart/form-data" >
+                <form id="myForm" method="POST" action="{{ route('update.apartment')}}" class="forms-sample" enctype="multipart/form-data" >
                     @csrf
 
                     <input type="hidden" name="id" value="{{ $item->id }}">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Description</label>
-                        <textarea name="description" type="text" value="{{ $item->description }}" class="form-control  @error('description') is-invalid @enderror" id="description" rows="4">{{ $item->description }}</textarea>
+                        <textarea name="description" value="{{ $item->description }}" class="form-control  @error('description') is-invalid @enderror" id="description" rows="4"></textarea>
                             @error('description')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -97,14 +97,16 @@
                             </span>
                         @enderror
                     </div>
+
+                    <hr>
                     <div class="form-group mb-3">
                         <label for="exampleInputUsername1" class="form-label">Select Amenities</label>
                         <br>
                         @foreach ($amenities_group as $amenity)
                         
                             <div class="form-check form-check-inline col-3">
-                                <input type="checkbox" name="amenity[]" class="form-check-input" id="amenity" value="{{ $amenity->id}}" >
-                                <label class="form-check-label" for="amenity">
+                                <input type="checkbox" name="amenity[]" class="form-check-input" id="amenity" value="{{ $amenity->id}}">
+                                <label class="form-check-label" for="checkInline1">
                                 {{ $amenity->amenities_name}}
                                 </label>
                                 <br>
@@ -112,8 +114,8 @@
                         
                         @endforeach
                     </div>
-                    
-                    
+
+                      <hr>
                     
                         <button type="submit" class="btn btn-primary me-2">Update</button>
                 </form>

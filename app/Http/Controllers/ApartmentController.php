@@ -3,36 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Condo;
+use App\Models\Apartment;
 use App\Models\Image;
 use App\Models\User;
 use App\Models\Amenities;
 use DB;
 
-class CondoController extends Controller
+class ApartmentController extends Controller
 {
-   
-    /**
-     * Display a listing of the resource.
-     */
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function AddCondo()
-    {
-        $condos = Condo::latest()->get();
-        $amenities = Amenities::all();
-        $amenities_group = User::getamenitiesGroup();
-        return view('backend.condo.add_condo', compact('condos','amenities','amenities_group'));
+    
+    public function AllApartment(){
+        $aparts = Apartment::with('amenities')->orderBy('id')->get();
+        return view ('backend.apartment.all_apartment', compact('aparts'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function StoreCondo(Request $request)
-    {
+    public function AddApartment(){
+        $apart = Apartment::latest()->get();
+        $amenities = Amenities::all();
+        $amenities_group = User::getamenitiesGroup();
+        return view ('backend.apartment.add_apartment', compact('apart','amenities','amenities_group'));
+    }
+
+    public function StoreApartment(Request $request){
         $request->validate([
             'name' => 'required',
             'price' => 'required',
@@ -44,7 +36,7 @@ class CondoController extends Controller
         ]);
 
         $data = $request->amenity;
-         $item = new Condo();
+         $item = new Apartment();
          $item->name = $request->name;
          $item->price = $request->price;
          $item->room = $request->room;
@@ -54,12 +46,12 @@ class CondoController extends Controller
          $item->save();
         $item->amenities()->attach($data);
 
-         $condos = $item->id;
+         $aparts = $item->id;
 
 
         if($request->hasFile('images'))
         {
-            $uploadPath = 'uploads/Condos/';
+            $uploadPath = 'uploads/Apartments/';
             $i=1;
             foreach($request->file('images') as $image)
             {
@@ -70,50 +62,36 @@ class CondoController extends Controller
 
                 $newimage = new Image();
                 $newimage->url = $finalImagePath;
-                $newimage->condo_id = $condos;
+                $newimage->appartment_id = $aparts;
                 $newimage->save();
             }
         }
 
         $notification = array(
-            'message' => 'Condo Added Successfully',
+            'message' => 'Apartment Added Successfully',
             'alert-type' => 'success'
         );
 
-            return redirect()->route('all.condo')->with($notification);
+            return redirect()->route('all.apartment')->with($notification);
     }
 
-    public function AllCondo()
-    {
-
-        $condos = Condo::with('amenities')->orderBy('id')->get();
-        return view ('backend.condo.all_condo', compact('condos'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function EditCondo($id)
-    {
-        $item = Condo::findOrFail($id);
+    public function EditApartment($id){
+        $item = Apartment::findOrFail($id);
         $amenities = Amenities::all();
         $amenities_group = User::getamenitiesGroup();
-        return view('backend.condo.edit_condo', compact('item','amenities','amenities_group'));
+        return view('backend.apartment.edit_apartment', compact('item','amenities','amenities_group'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function UpdateCondo(Request $request)
+    public function UpdateApartment(Request $request)
     {
-        $cod_id = $request->id;
+        $apart_id = $request->id;
 
-        $condo = Condo::findOrFail($cod_id);
+        $apart = Apartment::findOrFail($apart_id);
 
 
-        $condo->amenities()->sync($request->amenity);
+        $apart->amenities()->sync($request->amenity);
 
-         Condo::findOrFail($cod_id)->update([
+        Apartment::findOrFail($apart_id)->update([
 
             'name' => $request->name,
             'price' => $request->price,
@@ -125,11 +103,11 @@ class CondoController extends Controller
 
 
 
-         $data = Image::select('url')->where('condo_id',$request->id)->get();
+         $data = Image::select('url')->where('appartment_id',$request->id)->get();
          
          if($request->hasFile('images'))
         {
-            $uploadPath = 'uploads/Condos/';
+            $uploadPath = 'uploads/Apartments/';
             $i=1;
             foreach($request->file('images') as $image)
             {
@@ -140,22 +118,19 @@ class CondoController extends Controller
 
                 $newimage = new Image();
                 $newimage->url = $finalImagePath;
-                $newimage->condo_id = $cod_id;
+                $newimage->appartment_id = $apart_id;
                 $newimage->save();
             }
         }
    
          $notification = array(
-         'message' => 'Condo Information Updated Successfully',
+         'message' => 'Apartment Information Updated Successfully',
          'alert-type' => 'success'
          );
    
-            return redirect()->route('all.condo')->with($notification);
+            return redirect()->route('all.apartment')->with($notification);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function DeleteImage($id)
     {
         Image::findOrFail($id)->delete();
@@ -168,21 +143,20 @@ class CondoController extends Controller
                return redirect()->back()->with($notification);
     }
 
-    public function DeleteCondo($id)
+    public function DeleteApartment($id)
     {
-        $condo = Condo::findOrFail($id);
+        $apart = Apartment::findOrFail($id);
 
-        $condo->amenities()->detach();
+        $apart->amenities()->detach();
 
-        $condo->delete();
+        $apart->delete();
 
 
         $notification = array(
-            'message' => 'Condo Deleted Successfully',
+            'message' => 'Apartment Deleted Successfully',
             'alert-type' => 'success'
             );
       
                return redirect()->back()->with($notification);
     }
-    
 }
